@@ -7,6 +7,7 @@ public class Enemy : Unit
     public override void Die()
     {
         base.Die();
+        StageManager._instance.enemyContainer.Remove(this);
         StageManager._instance.SpawnNewEnemy();
     }
 

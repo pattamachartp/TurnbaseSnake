@@ -28,7 +28,6 @@ public class RPGBase : MonoBehaviour
     {
         float getStat = stats.ContainsKey(stat) ? stats[stat] : 0;
         if (addStats.ContainsKey(stat)) getStat += addStats[stat];
-      //  if (mutiStats.ContainsKey(stat)) getStat *= mutiStats[stat];
         return getStat;
     }
 }

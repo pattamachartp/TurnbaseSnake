@@ -589,6 +589,10 @@ MonoBehaviour:
     enemyStartHp: {x: 10, y: 15}
     enemyStartAttack: {x: 10, y: 14}
     enemyStartDefend: {x: 3, y: 5}
+    heroSpawnChance: 20
+    heroSpawnMaxNumber: 2
+    enemySpawnChance: 50
+    enemySpawnMaxNumber: 3
 --- !u!1 &780201803
 GameObject:
   m_ObjectHideFlags: 0

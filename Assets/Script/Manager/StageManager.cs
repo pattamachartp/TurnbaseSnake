@@ -14,6 +14,9 @@ public class StageManager : MonoBehaviour
     [HideInInspector] public Hero mainPlayer;
     private List<Hero> ally = new List<Hero>();
 
+    [HideInInspector] public List<Hero> heroContainer = new List<Hero>();
+    [HideInInspector] public List<Enemy> enemyContainer = new List<Enemy>();
+
     private void Awake()
     {
         _instance = this;
@@ -95,14 +98,25 @@ public class StageManager : MonoBehaviour
 
     public void SpawnNewHero()
     {
-        Grid randomGrid = RandomAvailableGrid();
-        if (randomGrid != null)
-        {
-            Vector3 spawnPosition = randomGrid.GetWorldPosition();
-            GameObject collectibleHero = Instantiate(heroPrefab, spawnPosition, Quaternion.identity);
-            collectibleHero.GetComponent<Hero>().Initialize(randomGrid, UnitType.HERO);
+        StageData stageData = GameDataManager._instance.stageData.GetSafe(1);
+        if (Random.Range(0f, 100f) <= stageData.heroSpawnChance || heroContainer.Count < 2)
+            {
+            int numberToSpawn = Random.Range(1, stageData.maxHeroSpawnCount + 1);
+            for (int i = 0; i < numberToSpawn; i++)
+            {
+                Grid randomGrid = RandomAvailableGrid();
+                if (randomGrid != null)
+                {
+                    Vector3 spawnPosition = randomGrid.GetWorldPosition();
+                    GameObject collectibleHero = Instantiate(heroPrefab, spawnPosition, Quaternion.identity);
+                    Hero hero = collectibleHero.GetComponent<Hero>();
+                    hero.Initialize(randomGrid, UnitType.HERO);
+                    heroContainer.Add(hero);
+                }
+            }
         }
     }
+
 
     public void SpawnHeroFirstTime()
     {
@@ -113,21 +127,34 @@ public class StageManager : MonoBehaviour
             {
                 Vector3 spawnPosition = randomGrid.GetWorldPosition();
                 GameObject collectibleHero = Instantiate(heroPrefab, spawnPosition, Quaternion.identity);
-                collectibleHero.GetComponent<Hero>().Initialize(randomGrid, UnitType.HERO);
+                Hero hero = collectibleHero.GetComponent<Hero>();
+                hero.Initialize(randomGrid, UnitType.HERO);
+                heroContainer.Add(hero);
             }
         }
     }
 
     public void SpawnNewEnemy()
     {
-        Grid randomGrid = RandomAvailableGrid();
-        if (randomGrid != null)
+        StageData stageData = GameDataManager._instance.stageData.GetSafe(1);
+        if (Random.Range(0f, 100f) <= stageData.enemySpawnChance || enemyContainer.Count < 2)
         {
-            Vector3 spawnPosition = randomGrid.GetWorldPosition();
-            GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-            enemy.GetComponent<Enemy>().Initialize(randomGrid, UnitType.ENEMY);
+            int numberToSpawn = Random.Range(1, stageData.maxEnemySpawnCount + 1);
+            for (int i = 0; i < numberToSpawn; i++)
+            {
+                Grid randomGrid = RandomAvailableGrid();
+                if (randomGrid != null)
+                {
+                    Vector3 spawnPosition = randomGrid.GetWorldPosition();
+                    GameObject enemyObj = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+                    Enemy enemy = enemyObj.GetComponent<Enemy>();
+                    enemyObj.GetComponent<Enemy>().Initialize(randomGrid, UnitType.ENEMY);
+                    enemyContainer.Add(enemy);
+                }
+            }
         }
     }
+
     public void SpawnEnemyFirstTime()
     {
         for (int i = 0; i < currentStageData.startEnemyNumber; i++)
@@ -196,6 +223,8 @@ public class StageManager : MonoBehaviour
             {
                 heroToChange = hero;
                 heroToChange.ChangeToAlly();
+                heroContainer.Remove(hero);
+                SpawnNewHero();
                 break;
             }
         }

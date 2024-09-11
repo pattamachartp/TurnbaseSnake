@@ -14,4 +14,8 @@ public class StageData
     public Vector2 enemyStartHp;
     public Vector2 enemyStartAttack;
     public Vector2 enemyStartDefend;
+    public float heroSpawnChance;  
+    public int maxHeroSpawnCount; 
+    public float enemySpawnChance;
+    public int maxEnemySpawnCount;
 }
