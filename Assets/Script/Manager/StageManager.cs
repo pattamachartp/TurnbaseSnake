@@ -10,6 +10,7 @@ public class StageManager : MonoBehaviour
     public GameObject heroPrefab;
     public GameObject enemyPrefab;
     public GameObject bgPrefab;
+    public Transform stageRef;
 
     [HideInInspector] public Hero mainPlayer;
     private List<Hero> ally = new List<Hero>();
@@ -84,7 +85,7 @@ public class StageManager : MonoBehaviour
         if (randomGrid != null)
         {
             Vector3 spawnPosition = randomGrid.GetWorldPosition();
-            GameObject playerObject = Instantiate(heroPrefab, spawnPosition, Quaternion.identity);
+            GameObject playerObject = Instantiate(heroPrefab, spawnPosition, Quaternion.identity, stageRef);
             mainPlayer = playerObject.GetComponent<Hero>();
             mainPlayer.Initialize(randomGrid,UnitType.ALLY);
 
@@ -108,7 +109,7 @@ public class StageManager : MonoBehaviour
                 if (randomGrid != null)
                 {
                     Vector3 spawnPosition = randomGrid.GetWorldPosition();
-                    GameObject collectibleHero = Instantiate(heroPrefab, spawnPosition, Quaternion.identity);
+                    GameObject collectibleHero = Instantiate(heroPrefab, spawnPosition, Quaternion.identity, stageRef);
                     Hero hero = collectibleHero.GetComponent<Hero>();
                     hero.Initialize(randomGrid, UnitType.HERO);
                     heroContainer.Add(hero);
@@ -126,7 +127,7 @@ public class StageManager : MonoBehaviour
             if (randomGrid != null)
             {
                 Vector3 spawnPosition = randomGrid.GetWorldPosition();
-                GameObject collectibleHero = Instantiate(heroPrefab, spawnPosition, Quaternion.identity);
+                GameObject collectibleHero = Instantiate(heroPrefab, spawnPosition, Quaternion.identity, stageRef);
                 Hero hero = collectibleHero.GetComponent<Hero>();
                 hero.Initialize(randomGrid, UnitType.HERO);
                 heroContainer.Add(hero);
@@ -146,7 +147,7 @@ public class StageManager : MonoBehaviour
                 if (randomGrid != null)
                 {
                     Vector3 spawnPosition = randomGrid.GetWorldPosition();
-                    GameObject enemyObj = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+                    GameObject enemyObj = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity, stageRef);
                     Enemy enemy = enemyObj.GetComponent<Enemy>();
                     enemyObj.GetComponent<Enemy>().Initialize(randomGrid, UnitType.ENEMY);
                     enemyContainer.Add(enemy);
@@ -163,7 +164,7 @@ public class StageManager : MonoBehaviour
             if (randomGrid != null)
             {
                 Vector3 spawnPosition = randomGrid.GetWorldPosition();
-                GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+                GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity, stageRef);
                 enemy.GetComponent<Enemy>().Initialize(randomGrid, UnitType.ENEMY);
             }
         }
