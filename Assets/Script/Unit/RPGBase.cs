@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class RPGBase : MonoBehaviour
 {
-    [Header("Start Base Stat")]
-    public List<StartUnitStat> startStat;
-
     [Header("Base Stat")]
     [HideInInspector] public int level;
     [HideInInspector] public int curHp;
@@ -24,16 +21,6 @@ public class RPGBase : MonoBehaviour
     public void InitStat(SerializableDictionary<UnitStat, float> stats)
     {
         this.stats = stats;
-        curHp = (int)GetStat(UnitStat.maxHp);
-    }
-
-
-    private void InitStatByPrefab()
-    {
-        foreach (var stat in startStat)
-        {
-            stats[stat.stat] = stat.value;
-        }
         curHp = (int)GetStat(UnitStat.maxHp);
     }
 
